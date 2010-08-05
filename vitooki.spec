@@ -103,9 +103,11 @@ cd -
 	OPT_LDFLAGS="%{rpmldflags}" \
 	SDL_LIBS="" \
 	LIBMAD_LIBS="" \
+	LIBMAD_INCLUDES="" \
 	X11_LIBS="-L%{?_x_libraries}%{!?_x_libraries:%{_libdir}}" \
 	QT_LIBS="" \
 	EXPAT_LIBS="" \
+	EXPAT_INCLUDES="" \
 	QTDIR=/usr \
 	xFFMPEG="/usr/include" \
 	QT_INCLUDES="-I/usr/include/qt" \
