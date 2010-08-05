@@ -81,7 +81,9 @@ cd 3rdparty/ffmpeg
 	--enable-shared \
 	--disable-static \
     --cc="%{__cc}" \
-    --extra-ldflags="-L%{?_x_libraries}%{!?_x_libraries:%{_libdir}}"
+%if "%{?_x_libraries}" != "%{nil}"
+	--extra-ldflags="-L%{_x_libraries}"
+%endif
 
 #    --extra-cflags="-D_GNU_SOURCE=1 %{rpmcppflags} %{rpmcflags}" \
 #    --extra-ldflags="%{rpmcflags} %{rpmldflags}" \
