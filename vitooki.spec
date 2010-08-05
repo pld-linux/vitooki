@@ -10,6 +10,7 @@ Release:	0.1
 License:	GPL v2
 Group:		Applications
 Source0:	%{name}-20100804.tar.bz2
+Patch0:	gcc.patch
 # Source0-md5:	-
 URL:		http://vitooki.sourceforge.net/
 BuildRequires:	SDL-devel
@@ -35,6 +36,7 @@ implementation of multimedia applications.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 
 sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
 sed -i -e '/all4itec:/s/lame//' Makefile # untouched

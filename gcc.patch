@@ -1,0 +1,40 @@
+--- vitooki/src/ESInfo.hpp~	2006-05-15 13:41:39.000000000 +0300
++++ vitooki/src/ESInfo.hpp	2010-08-05 16:22:27.061490204 +0300
+@@ -57,6 +57,7 @@
+ #ifdef __cplusplus
+ extern "C" {
+ #include "avformat.h"
++#include <string.h>
+ }
+ #endif
+ #endif
+--- vitooki/src/IO.hpp~	2006-03-17 19:14:52.000000000 +0200
++++ vitooki/src/IO.hpp	2010-08-05 16:23:06.220993247 +0300
+@@ -46,6 +46,7 @@
+ 
+ #include "global.hpp"
+ #include <assert.h>
++#include <string.h>
+ #ifdef ISOMP4
+ #include "ISOMovies.h"
+ #endif
+--- vitooki/src/global.hpp~	2006-01-20 17:37:17.000000000 +0200
++++ vitooki/src/global.hpp	2010-08-05 16:23:43.827655498 +0300
+@@ -57,6 +57,7 @@
+ #include <list>
+ #include <map>
+ #include <string>
++#include <string.h>
+ #include "debug.hpp"
+ using namespace std;
+ 
+--- vitooki/src/VThread.hpp~	2005-08-10 10:04:12.000000000 +0300
++++ vitooki/src/VThread.hpp	2010-08-05 16:25:02.835355151 +0300
+@@ -50,6 +50,7 @@
+ 
+ #include "global.hpp"
+ #include <assert.h>
++#include <limits.h>
+ #ifndef WINCE
+ #include <pthread.h>
+ #endif //wince
