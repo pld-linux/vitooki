@@ -103,6 +103,7 @@ cd -
 	xFFMPEG="/usr/include" \
 	QT_INCLUDES="-I/usr/include/qt" \
 	XVIDLIB="-lxvidcore" \
+	PARALIB="-lparagui" \
 %ifarch %{ix86}
 	VITOOKI_BUILD_ARCH=intel32 \
 %endif
