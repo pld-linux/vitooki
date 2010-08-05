@@ -10,7 +10,8 @@ Release:	0.1
 License:	GPL v2
 Group:		Applications
 Source0:	%{name}-20100804.tar.bz2
-Patch0:	gcc.patch
+Patch0:		gcc.patch
+Patch1:		optflags.patch
 # Source0-md5:	-
 URL:		http://vitooki.sourceforge.net/
 BuildRequires:	SDL-devel
@@ -37,6 +38,7 @@ implementation of multimedia applications.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p1
 
 sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
 sed -i -e '/all4itec:/s/lame//' Makefile # untouched
@@ -47,6 +49,14 @@ sed -i -e '/all4itec:/s/libdvdcss//' Makefile # untouched
 sed -i -e '/all4itec:/s/libdvdread//' Makefile # untouched
 sed -i -e '/all4itec:/s/libmatroska//' Makefile
 sed -i -e '/all4itec:/s/libebml//' Makefile
+
+install -d 3rdparty/system-libs
+mv 3rdparty/{lame,paragui,libmad*,libtheora*,libdvdcss,libdvdread,libmatroska,libebml} 3rdparty/system-libs
+
+# error with UINT64_C symbol
+#mv 3rdparty/ffmpeg 3rdparty/system-libs
+# need "bitstream/bitstream.h"
+#mv 3rdparty/xvidcore* 3rdparty/system-libs
 
 %build
 cd 3rdparty/sord
@@ -60,15 +70,28 @@ cd -
 
 %{__make} -j1 commonucl vitooki \
 	PWD=$(pwd) \
-	CPP="%{__cxx}" \
-	GCC="%{__cc}" \
 	PREFIX=%{_prefix} \
-	SDL_LIBS=%{_libdir} \
+	GCC="%{__cc}" \
+	CPP="%{__cxx}" \
+	OPT_CFLAGS="%{rpmcflags}" \
+	OPT_CPPFLAGS="%{rpmcppflags} -funroll-loops -DVITOOKI_DEBUG_LEVEL=0 -fPIC" \
+	xRELEASE_CPPFLAGS="%{rpmcppflags} -funroll-loops -DVITOOKI_DEBUG_LEVEL=0 -fPIC" \
+	OPT_LDFLAGS="%{rpmldflags}" \
+	SDL_LIBS="" \
+	LIBMAD_LIBS="" \
+	X11_LIBS="" \
+	QT_LIBS="" \
+	EXPAT_LIBS="" \
+	QTDIR=/usr \
+	xFFMPEG="/usr/include" \
+	QT_INCLUDES="-I/usr/include/qt" \
+	XVIDLIB="-lxvidcore" \
 %ifarch %{ix86}
 	VITOOKI_BUILD_ARCH=intel32 \
 %endif
 %ifarch %{x8664}
 	VITOOKI_BUILD_ARCH=intel64 \
+	EXTRA_FLAGS="-fPIC" \
 %endif
 
 %{?with_apidocs:doxygen doxygen.cfg}
