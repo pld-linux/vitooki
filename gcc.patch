@@ -38,3 +38,152 @@
  #ifndef WINCE
  #include <pthread.h>
  #endif //wince
+--- vitooki/src/cache/MetaObject.cpp~	2010-08-05 16:56:34.000000000 +0300
++++ vitooki/src/cache/MetaObject.cpp	2010-08-05 16:56:35.880850044 +0300
+@@ -315,7 +315,7 @@
+ 	}
+ 	FILE* fp=fopen(cfg,"wb");
+ 	bool retVal=false;
+-	char* pCfg=strrchr(cfg,'.');
++	char* pCfg=(char *)strrchr(cfg,'.');
+ 	char *temp = new char[1024];
+ 	if(pCfg) {
+ 		strncpy(temp,cfg,pCfg-cfg-1); //do not copy the dot
+--- vitooki/src/io/IOCreator.cpp~	2006-11-10 16:49:37.000000000 +0200
++++ vitooki/src/io/IOCreator.cpp	2010-08-05 16:58:40.561820148 +0300
+@@ -61,7 +61,7 @@
+ 	//       url==input -> create an MP4IO
+ 	//       not equal and this.input exists -> create MPGStreamIO
+ 	
+-	char* tmp=NULL;
++	const char* tmp=NULL;
+ 	const char* input;
+ 	ContainerInfo* vo=es->getContainerInfo();
+ 	
+--- vitooki/src/metadata/MP21.cpp~	2010-08-05 17:19:08.000000000 +0300
++++ vitooki/src/metadata/MP21.cpp	2010-08-05 17:19:11.000656119 +0300
+@@ -129,8 +129,8 @@
+ 
+ 	TerminalCapabilities* tc=new TerminalCapabilities();
+ 	// lazy  parsing
+-	char* pBuffer=strstr(mp21string, "<Display");
+-	char* pBufferEnd=NULL;
++	const char* pBuffer=strstr(mp21string, "<Display");
++	const char* pBufferEnd=NULL;
+ 	if(pBuffer) {
+ 		pBufferEnd=strstr(pBuffer, "</Display>");
+ 	}
+@@ -177,8 +177,8 @@
+ 		pBufferEnd=strstr(mp21string,"</DeviceProperty>");
+ 
+ 	if(pBuffer && pBufferEnd) {
+-		char* pStorage=strstr(pBuffer,"<Storage>");
+-		char* pStorageEnd=strstr(pBuffer,"</Storage>");
++		const char* pStorage=strstr(pBuffer,"<Storage>");
++		const char* pStorageEnd=strstr(pBuffer,"</Storage>");
+ 		if(pStorage && pStorageEnd) {
+ 			float result;
+ 			if(findFloatAfterToken(pStorage,pStorageEnd,"Size",&result))
+@@ -201,7 +201,7 @@
+ 
+ bool MP21::findIntAfterToken(const char* input, const char* inputEnd,
+ 							 const char* token, int* result) {
+-	char* temp=strstr(input,token);
++	const char* temp=strstr(input,token);
+ 	if(!temp )
+ 		return false;
+ 	if(temp>inputEnd)
+@@ -224,7 +224,7 @@
+ 
+ bool MP21::findFloatAfterToken(const char* input, const char* inputEnd,
+ 							 const char* token, float* result) {
+-	char* temp=strstr(input,token);
++	const char* temp=strstr(input,token);
+ 	if(!temp )
+ 		return false;
+ 	if(temp>inputEnd)
+@@ -248,7 +248,7 @@
+ 
+ bool MP21::findStringAfterToken(const char* input, const char* inputEnd,
+ 								const char* token, char* result) {
+-	char* temp=strstr(input,token);
++	const char* temp=strstr(input,token);
+ 	if(!temp)
+ 		return false;
+ 	if(temp>inputEnd)
+@@ -264,7 +264,7 @@
+ 	if(*temp=='"') {
+ 		temp++;
+ 		// find the closing '"' in the same line
+-		char* pEnd=temp;
++		const char* pEnd=temp;
+ 		while(*pEnd!='"' && *pEnd!='\r' && *pEnd!='\n')
+ 			pEnd++;
+ 		if(*pEnd=='"' && pEnd<=inputEnd) {
+--- vitooki/src/metadata/MP7Time.cpp~	2010-08-05 17:20:42.000000000 +0300
++++ vitooki/src/metadata/MP7Time.cpp	2010-08-05 17:20:46.494618852 +0300
+@@ -101,7 +101,7 @@
+ {
+   resetTimePoint();
+   uint val;
+-  char *pos = strchr(mp7Value, 'T');
++  const char *pos = strchr(mp7Value, 'T');
+   /* date part */
+   if (!pos)
+     pos = strchr(mp7Value, '\0');
+@@ -116,7 +116,7 @@
+     return true;
+   pos++;			// advance to character after 'T'
+   /* time zone */
+-  char *postz = strchr(pos, '+');
++  const char *postz = strchr(pos, '+');
+   if (!postz)
+     postz = strchr(pos, '-');
+   if (postz) {
+@@ -131,7 +131,7 @@
+     return true;
+   /* parse time part */
+   int unit = 3600;		// time unit (in seconds) of next field
+-  char *num = pos;
++  const char *num = pos;
+   for (; pos <= postz; pos++) {
+     if (*pos == ':' || *pos == 'F' || *pos == '+'
+ 	|| *pos == '-' || *pos == '\0') {
+--- vitooki/src/net/RTSP.cpp~	2010-08-05 17:22:41.000000000 +0300
++++ vitooki/src/net/RTSP.cpp	2010-08-05 17:22:43.341675892 +0300
+@@ -360,7 +360,7 @@
+ 												const char *remaining, int* sessionId, double* startTime, double* endTime, double* maxPrefetch) 
+ {
+ 	buffer[0]=0;
+-	char *tmp=NULL;
++	const char *tmp=NULL;
+ 	assert(remaining && sessionId && startTime && endTime && maxPrefetch);
+ 	// parse remaining to get session key
+ 	*sessionId=this->extractSessionKeyFromCMD(remaining);
+@@ -587,7 +587,7 @@
+   
+   bool error = false;
+   const char* filen=fileName->getPath();
+-  char *l2 = strchr(filen, '=');
++  const char *l2 = strchr(filen, '=');
+   if (l2) {
+ 		l2++;
+ 		error = (1 != sscanf(l2, "%i", esId));
+@@ -794,7 +794,7 @@
+ /** returns INVALID_SESSIONID if no sessionid was found */
+ int RTSP::extractSessionKeyFromCMD(const char* remaining)
+ {
+-	char *tmp=NULL;
++	const char *tmp=NULL;
+ 	int key;
+   if ( ((tmp=strstr(remaining, "Session:")) == NULL) ||
+ 			 (sscanf(tmp,"%*s %i",&key) != 1) ) {
+@@ -1129,7 +1129,7 @@
+ 	temp=strstr(media,"config=");
+ 	if(temp!=NULL && temp<endOfMedia) {
+ 		temp+=strlen("config=");
+-		char* tmp2=strstr(temp,"\r");
++		const char* tmp2=strstr(temp,"\r");
+ 		if(tmp2==NULL)
+ 			tmp2=strstr(temp,"\n");
+ 
