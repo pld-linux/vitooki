@@ -312,3 +312,46 @@
  
  
  /***********************************************************************/
+--- vitooki/apps/muviserver/shared/CGIParser.hpp~	2005-12-09 22:04:51.000000000 +0200
++++ vitooki/apps/muviserver/shared/CGIParser.hpp	2010-08-06 00:45:18.082562388 +0300
+@@ -78,7 +78,7 @@
+     void parseData(string data, const char sep1, const char sep2);
+     /** Splits the passed string into serval parts,
+         seperated through passed seperator. */
+-    list<string> splitData(string data, const char sep);
++    list<string> splitData(const string& data, const char sep);
+     /** @return the decimal value of a hexadecimal character. */
+     int hex2dec(char c);
+     /** Decodes the HTML FORM data string.
+--- vitooki/apps/muviserver/shared/CGIParser.cpp~	2010-08-06 00:48:59.000000000 +0300
++++ vitooki/apps/muviserver/shared/CGIParser.cpp	2010-08-06 00:49:02.005248076 +0300
+@@ -52,8 +52,8 @@
+ #include <qstring.h>
+ #endif
+ 
+-#ifdef WIN32
+ #include <algorithm>
++#ifdef WIN32
+ typedef unsigned int uint;
+ #endif
+ 
+@@ -90,16 +90,16 @@
+ }
+ 
+ /***********************************************************************/
+-list<string> CGIParser::splitData(string data, const char sep)
++list<string> CGIParser::splitData(const string& data, const char sep)
+ {
+   //list of elements
+   list<string> elems;
+ 
+ #ifndef WIN32  //back_inserters cause C2039
+ 
+-  string::iterator pos1 = data.begin();
++  string::const_iterator pos1 = data.begin();
+   //find returns an iterator to the end, if nothing is found
+-  string::iterator pos2 = find(pos1, data.end(), sep);
++  string::const_iterator pos2 = find(pos1, data.end(), sep);
+   while (pos2 != data.end())
+   {
+     string field;
