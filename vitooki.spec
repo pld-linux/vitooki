@@ -40,7 +40,7 @@ implementation of multimedia applications.
 %patch0 -p1
 %patch1 -p1
 
-sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
+#sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
 sed -i -e '/all4itec:/s/lame//' Makefile # untouched
 sed -i -e '/all4itec:/s/paragui//' Makefile # untouched
 sed -i -e '/all4itec:/s/isomp4lib//' Makefile # untouched
@@ -68,7 +68,24 @@ fi
 %{__make}
 cd -
 
-%{__make} -j1 commonucl vitooki \
+
+cd 3rdparty/ffmpeg
+	./configure \
+	--enable-pp \
+	--enable-gpl \
+	--enable-mp3lame \
+	--enable-shared \
+	--disable-static \
+    --cc="%{__cc}" \
+
+#    --extra-cflags="-D_GNU_SOURCE=1 %{rpmcppflags} %{rpmcflags}" \
+#    --extra-ldflags="%{rpmcflags} %{rpmldflags}" \
+
+%{__make}
+cd -
+
+
+%{__make} -j1 commonucl vitooki apps \
 	PWD=$(pwd) \
 	PREFIX=%{_prefix} \
 	GCC="%{__cc}" \
