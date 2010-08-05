@@ -187,3 +187,128 @@
  		if(tmp2==NULL)
  			tmp2=strstr(temp,"\n");
  
+--- vitooki/apps/muviserver/shared/SemiGlobals.hpp~	2005-03-15 19:55:46.000000000 +0200
++++ vitooki/apps/muviserver/shared/SemiGlobals.hpp	2010-08-05 18:57:24.813469340 +0300
+@@ -57,6 +57,7 @@
+ #include <vector>
+ #include <map>
+ #include <math.h>
++#include <string.h>
+ 
+ #ifdef WIN32
+ #include <winsock2.h>
+--- vitooki/apps/muviserver/shared/Movie.hpp~	2005-03-15 19:55:46.000000000 +0200
++++ vitooki/apps/muviserver/shared/Movie.hpp	2010-08-05 18:58:33.086726145 +0300
+@@ -57,9 +57,7 @@
+ 
+ using namespace std;
+ 
+-#ifdef WIN32
+ typedef unsigned int uint;
+-#endif
+ 
+ /**
+  * This class is used to store a movie.
+--- vitooki/apps/muviserver/shared/MovieList.cpp~	2005-01-13 23:53:24.000000000 +0200
++++ vitooki/apps/muviserver/shared/MovieList.cpp	2010-08-05 18:59:10.880888763 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "MovieList.hpp"
++#include <stdlib.h>
+ 
+ 
+ using namespace std;
+--- vitooki/apps/muviserver/shared/Profile.hpp~	2005-03-15 19:55:46.000000000 +0200
++++ vitooki/apps/muviserver/shared/Profile.hpp	2010-08-05 18:59:37.883386363 +0300
+@@ -52,9 +52,7 @@
+ 
+ #include <string>
+ 
+-#ifdef WIN32
+ typedef unsigned int uint;
+-#endif
+ 
+ 
+ /** maximum length for the name of a profile */
+--- vitooki/apps/muviserver/shared/Profile.cpp~	2010-08-05 19:03:20.000000000 +0300
++++ vitooki/apps/muviserver/shared/Profile.cpp	2010-08-05 19:03:27.300042152 +0300
+@@ -48,6 +48,8 @@
+ 
+ 
+ #include "Profile.hpp"
++#include <string.h>
++#include <stdlib.h>
+ 
+ /***********************************************************************/
+ Profile::Profile (uint profileId, uint uidCount, uint *userIds, char profilename[],
+--- vitooki/apps/muviserver/shared/ProfileList.cpp~	2005-01-07 00:02:03.000000000 +0200
++++ vitooki/apps/muviserver/shared/ProfileList.cpp	2010-08-05 19:04:36.738147745 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "ProfileList.hpp"
++#include <stdlib.h>
+ 
+ using namespace std;
+ 
+--- vitooki/apps/muviserver/shared/SemiGlobals.cpp~	2005-05-10 12:22:36.000000000 +0300
++++ vitooki/apps/muviserver/shared/SemiGlobals.cpp	2010-08-05 19:05:17.373352180 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "SemiGlobals.hpp"
++#include <stdlib.h>
+ 
+ 
+ 
+--- vitooki/apps/muviserver/shared/User.cpp~	2005-01-07 00:02:03.000000000 +0200
++++ vitooki/apps/muviserver/shared/User.cpp	2010-08-05 19:05:49.456682163 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "User.hpp"
++#include <stdlib.h>
+ 
+ /***********************************************************************/
+ User::User(uint userId, char username[], char password[])
+--- vitooki/apps/muviserver/shared/UserList.cpp~	2005-01-07 00:02:03.000000000 +0200
++++ vitooki/apps/muviserver/shared/UserList.cpp	2010-08-05 19:06:18.333345946 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "UserList.hpp"
++#include <stdlib.h>
+ 
+ using namespace std;
+ 
+--- vitooki/apps/muviserver/semiserver/readusers/MovieListRequest.cpp~	2005-01-07 00:26:36.000000000 +0200
++++ vitooki/apps/muviserver/semiserver/readusers/MovieListRequest.cpp	2010-08-05 19:06:59.070124533 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "MovieListRequest.hpp"
++#include <stdlib.h>
+ 
+ /***********************************************************************/
+ MovieListRequest::MovieListRequest()
+--- vitooki/apps/muviserver/semiserver/readusers/readusers.cpp~	2005-01-21 01:23:30.000000000 +0200
++++ vitooki/apps/muviserver/semiserver/readusers/readusers.cpp	2010-08-05 19:07:31.583339828 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "readusers.hpp"
++#include <stdlib.h>
+ 
+ /***********************************************************************/
+ void createUserSelection()
+--- vitooki/apps/muviserver/semiserver/embedded/embedded.cpp~	2005-01-07 00:21:02.000000000 +0200
++++ vitooki/apps/muviserver/semiserver/embedded/embedded.cpp	2010-08-05 19:08:17.180834052 +0300
+@@ -48,6 +48,7 @@
+ 
+ 
+ #include "embedded.hpp"
++#include <stdlib.h>
+ 
+ 
+ /***********************************************************************/
