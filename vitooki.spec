@@ -36,9 +36,27 @@ implementation of multimedia applications.
 %prep
 %setup -q -n %{name}
 
+sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
+sed -i -e '/all4itec:/s/lame//' Makefile # untouched
+sed -i -e '/all4itec:/s/paragui//' Makefile # untouched
+sed -i -e '/all4itec:/s/isomp4lib//' Makefile # untouched
+sed -i -e '/all4itec:/s/xvid//' Makefile # unknown
+sed -i -e '/all4itec:/s/libdvdcss//' Makefile # untouched
+sed -i -e '/all4itec:/s/libdvdread//' Makefile # untouched
+sed -i -e '/all4itec:/s/libmatroska//' Makefile
+sed -i -e '/all4itec:/s/libebml//' Makefile
+
 %build
-#export QTDIR=%{_prefix}
-%{__make} -j1 commonucl sord \
+cd 3rdparty/sord
+if [ ! -f Makefile ]; then
+	CXX="%{__cxx}" \
+	CXXFLAGS="%{rpmcxxflags}" \
+		%{__perl} configure.pl
+fi
+%{__make}
+cd -
+
+%{__make} -j1 commonucl vitooki \
 	PWD=$(pwd) \
 	CPP="%{__cxx}" \
 	GCC="%{__cc}" \
