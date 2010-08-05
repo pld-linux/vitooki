@@ -12,7 +12,7 @@ Group:		Applications
 Source0:	%{name}-20100804.tar.bz2
 Patch0:		gcc.patch
 Patch1:		optflags.patch
-# Source0-md5:	-
+# Source0-md5:	6fb92c80db72c61bd194da0ec15ddda2
 URL:		http://vitooki.sourceforge.net/
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
@@ -20,8 +20,12 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	freetype-devel
+BuildRequires:	libdvdcss-devel
+BuildRequires:	libdvdread-devel
 BuildRequires:	libmad-devel
+BuildRequires:	libmatroska-devel
 BuildRequires:	libogg-devel
+BuildRequires:	libsigc++-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	nasm
 BuildRequires:	openssl-devel
@@ -77,6 +81,7 @@ cd 3rdparty/ffmpeg
 	--enable-shared \
 	--disable-static \
     --cc="%{__cc}" \
+    --extra-ldflags="-L%{?_x_libraries}%{!?_x_libraries:%{_libdir}}"
 
 #    --extra-cflags="-D_GNU_SOURCE=1 %{rpmcppflags} %{rpmcflags}" \
 #    --extra-ldflags="%{rpmcflags} %{rpmldflags}" \
@@ -96,7 +101,7 @@ cd -
 	OPT_LDFLAGS="%{rpmldflags}" \
 	SDL_LIBS="" \
 	LIBMAD_LIBS="" \
-	X11_LIBS="" \
+	X11_LIBS="-L%{?_x_libraries}%{!?_x_libraries:%{_libdir}}" \
 	QT_LIBS="" \
 	EXPAT_LIBS="" \
 	QTDIR=/usr \
@@ -104,6 +109,7 @@ cd -
 	QT_INCLUDES="-I/usr/include/qt" \
 	XVIDLIB="-lxvidcore" \
 	PARALIB="-lparagui" \
+	PARAINC="-I/usr/include/paragui -I/usr/include/sigc++-2.0 -I%{_libdir}/sigc++-2.0/include" \
 %ifarch %{ix86}
 	VITOOKI_BUILD_ARCH=intel32 \
 %endif
