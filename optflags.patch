@@ -1,0 +1,15 @@
+--- vitooki/rules.mk~	2008-11-24 18:34:57.000000000 +0200
++++ vitooki/rules.mk	2010-08-05 16:35:49.300989346 +0300
+@@ -53,9 +53,9 @@
+ CONFIG_ARM=--build=i686-pc-linux-gnu --host=arm-unknown-linux-gnu
+ 
+ #overwrite oe INCLUDES!
+-CPPFLAGS=
+-LDFLAGS=
+-CFLAGS=
++CPPFLAGS=$(OPT_CPPFLAGS)
++LDFLAGS=$(OPT_LDFLAGS)
++CFLAGS=$(OPT_CFLAGS)
+ 
+ ENABLE_MKV=no
+ ENABLE_MKV_WRITE=no
