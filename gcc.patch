@@ -520,3 +520,14 @@
  	if( next == strstr(next, VJOB_START))
  	{
  		next = (const char*) next+strlen(VJOB_START);
+--- vitooki/apps/muvimark/bmjob.cpp~	2004-09-29 14:33:23.000000000 +0300
++++ vitooki/apps/muvimark/bmjob.cpp	2010-08-09 14:29:05.993862736 +0300
+@@ -297,7 +297,7 @@
+ 	const char* next = buffer;
+ 	char* urlbuf = (char*)malloc(1024*sizeof(char));
+ 	assert(urlbuf);
+-	char* end = NULL;
++	const char* end = NULL;
+ 	if ( next == strstr(next, JOB_START) )
+ 	{
+ 		next = (const char*)next+strlen(JOB_START);
