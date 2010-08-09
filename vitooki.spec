@@ -25,10 +25,10 @@ BuildRequires:	libdvdread-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libmatroska-devel
 BuildRequires:	libogg-devel
-BuildRequires:	libsigc++-devel
 BuildRequires:	libtheora-devel
 BuildRequires:	nasm
 BuildRequires:	openssl-devel
+BuildRequires:	paragui-devel
 BuildRequires:	qt-devel
 BuildRequires:	slang-devel
 ExclusiveArch:	%{ix86} %{x8664} arm
@@ -112,8 +112,8 @@ cd -
 	xFFMPEG="/usr/include" \
 	QT_INCLUDES="-I/usr/include/qt" \
 	XVIDLIB="-lxvidcore" \
-	PARALIB="-lparagui" \
-	PARAINC="-I/usr/include/paragui -I/usr/include/sigc++-2.0 -I%{_libdir}/sigc++-2.0/include" \
+	PARALIB="$(pkg-config paragui --libs)" \
+	PARAINC="-I/usr/include/paragui $(pkg-config paragui --cflags)" \
 %ifarch %{ix86}
 	VITOOKI_BUILD_ARCH=intel32 \
 %endif
