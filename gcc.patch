@@ -355,3 +355,168 @@
    while (pos2 != data.end())
    {
      string field;
+--- vitooki/apps/muvitrans/AudioJob.cpp~	2005-03-26 22:17:13.000000000 +0200
++++ vitooki/apps/muvitrans/AudioJob.cpp	2010-08-09 12:12:13.627938559 +0300
+@@ -183,11 +183,11 @@
+ 	assert(initString);
+ 	this->checkReferences();
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 		 
+ 	if(next == strstr(next, AJOB_START))
+ 	{
+-		next=(const char*)next+strlen(AJOB_START);
++		next=next+strlen(AJOB_START);
+ 	}
+ 	else
+ 	{
+@@ -196,7 +196,7 @@
+ 	}
+ 	if(1==sscanf(next, JOBID, &this->jobID))
+ 	{
+-		next = (const char*)strchr(next, '\n')+1;
++		next = strchr(next, '\n')+1;
+ 	}
+ 	else
+ 	{
+@@ -207,7 +207,7 @@
+ 	{
+ 		if(NULL!=(end=strchr(next, '\n')))
+ 		{
+-			next=(const char*)next+strlen(NAME_SCAN);
++			next=next+strlen(NAME_SCAN);
+ 			memset(this->name, 0, MAX_STR_LEN);
+ 			if(NULL==memcpy(this->name, next, end-next))
+ 			{
+@@ -216,7 +216,7 @@
+ 	        	}
+ 	        	else
+ 	        	{
+-				next = (const char*)end+1;
++				next = end+1;
+ 			}
+ 		}
+ 		else
+@@ -235,7 +235,7 @@
+ 		if(NULL!=(end=strchr(next, '\n')))
+ 	        {
+ 		        memset(this->outFile, 0, MAX_STR_LEN);
+-		        next=(const char*)next+strlen(FILENAME_SCAN);
++		        next=next+strlen(FILENAME_SCAN);
+ 			if(NULL==memcpy(this->outFile, next, end-next))
+ 		        {
+ 				dprintf_err("\033[31mAudioJob::fromString\033[0m\n");
+@@ -243,7 +243,7 @@
+ 			}
+ 			else
+ 			{
+-				next = (const char*)end+1;
++				next = end+1;
+ 			}
+ 		}
+ 		else
+@@ -271,7 +271,7 @@
+ 		if(NULL!=(end=strchr(next, '\n')))
+ 		{
+ 		memset(this->language, 0, MAX_STR_LEN);
+-		next=(const char*)next+strlen(LANGUAGE_SCAN);
++		next=next+strlen(LANGUAGE_SCAN);
+ 			if(NULL==memcpy(this->language, next, end-next))
+ 			{
+ 				free(format);
+@@ -280,7 +280,7 @@
+ 			}
+ 			else
+ 			{
+-				next = (const char*)end+1;
++				next = end+1;
+ 				if(0 == memcmp(next, AJOB_END, strlen(AJOB_END)))
+ 			        {
+ 				        free(format);
+--- vitooki/apps/muvitrans/JobList.cpp~	2004-12-03 13:06:01.000000000 +0200
++++ vitooki/apps/muvitrans/JobList.cpp	2010-08-09 12:14:23.991561425 +0300
+@@ -326,7 +326,7 @@
+ 	dprintf_full("\033[32m>> JobList::fromStringJobs\033[0m\n");
+ 	assert(initString);
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	if(next == strstr(next, JL_START))
+ 	{
+ 		next=(const char*)next+strlen(JL_START);
+@@ -417,7 +417,7 @@
+ 	Job* job;
+ 	JobList* new_jl = this;
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	u32 id = 0;
+ 	if(next == strstr(next, JL_START))
+ 	{
+--- vitooki/apps/muvitrans/Project.cpp~	2004-12-03 13:06:02.000000000 +0200
++++ vitooki/apps/muvitrans/Project.cpp	2010-08-09 12:16:00.798840996 +0300
+@@ -78,7 +78,7 @@
+ 	{
+ 		fread( (void*) buf, 1, MAX_FILE_LEN, file);
+ 		const char* next = buf;
+-		char* end = NULL;
++		const char* end = NULL;
+ 		if(next==strstr(next, PROJECT_START))
+ 		{
+ 			next=(const char*)next + strlen(PROJECT_START);
+--- vitooki/apps/muvitrans/Source.cpp~	2005-11-17 18:55:40.000000000 +0200
++++ vitooki/apps/muvitrans/Source.cpp	2010-08-09 12:16:48.324586326 +0300
+@@ -197,7 +197,7 @@
+ 	dprintf_full("\033[32mSource::fromString\033[0m\n");
+ 	assert(initString);
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	char* name = (char*)malloc(MAX_STR_LEN);
+ 	memset(name, 0, MAX_STR_LEN);
+ 	Source* source = NULL;
+--- vitooki/apps/muvitrans/SourceList.cpp~	2004-12-03 13:06:02.000000000 +0200
++++ vitooki/apps/muvitrans/SourceList.cpp	2010-08-09 12:17:23.548531299 +0300
+@@ -313,7 +313,7 @@
+ 	dprintf_full("\033[32mSourceList::fromString\033[0m\n");
+ 	assert(initString);
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	Source* src = NULL;
+ 	if(next == strstr(next, SL_START))
+ 	{
+--- vitooki/apps/muvitrans/SystemFile.cpp~	2004-07-26 18:47:19.000000000 +0300
++++ vitooki/apps/muvitrans/SystemFile.cpp	2010-08-09 12:17:54.741653239 +0300
+@@ -209,7 +209,7 @@
+ 	dprintf_full("\033[32mSystemFile::fromString\033[0m\n");
+ 	assert(initString);
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	if(next==strstr(next, SYSFILE_START))
+ 	{
+ 		next=(const char*)next+strlen(SYSFILE_START);
+--- vitooki/apps/muvitrans/SystemFileList.cpp~	2004-07-23 19:43:35.000000000 +0300
++++ vitooki/apps/muvitrans/SystemFileList.cpp	2010-08-09 12:18:31.755816044 +0300
+@@ -255,7 +255,7 @@
+ 	dprintf_full("\033[32mSystemFileList::fromString\033[0m\n");
+ 	assert(initString);
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	if(next == strstr(next, SYSFILELIST_START))
+ 	{
+ 		next=(const char*)next+strlen(SYSFILELIST_START);
+--- vitooki/apps/muvitrans/VideoJob.cpp~	2005-03-26 22:17:13.000000000 +0200
++++ vitooki/apps/muvitrans/VideoJob.cpp	2010-08-09 12:19:15.438002918 +0300
+@@ -334,7 +334,7 @@
+ 	assert(initString);
+ 	//this->checkReferences();
+ 	const char* next = initString;
+-	char* end = NULL;
++	const char* end = NULL;
+ 	if( next == strstr(next, VJOB_START))
+ 	{
+ 		next = (const char*) next+strlen(VJOB_START);
