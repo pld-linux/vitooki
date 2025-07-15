@@ -41,8 +41,8 @@ implementation of multimedia applications.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 #sed -i -e '/all4itec:/s/ffmpeg//' Makefile # untouched
 sed -i -e '/all4itec:/s/lame//' Makefile # untouched
